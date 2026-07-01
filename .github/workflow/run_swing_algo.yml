@@ -4,21 +4,24 @@ on:
   schedule:
     # Runs at 03:50 UTC (9:20 AM IST) every Monday through Friday
     - cron: '50 3 * * 1-5'
-  workflow_dispatch: # Allows manual triggers from the UI Actions tab
+  workflow_dispatch: # Allows manual triggers
 
 jobs:
   run-algo:
     runs-on: ubuntu-latest
 
     steps:
+    # 1. CRITICAL FIRST STEP: Download the repository code first!
     - name: Checkout Repository Code
       uses: actions/checkout@v4
 
+    # 2. NOW we can safely set up Python and point to requirements.txt for caching
     - name: Set up Python 3.10
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
-        cache: 'pip' # Automated caching cuts download times significantly
+        cache: 'pip' 
+        cache-dependency-path: 'requirements.txt'
 
     - name: Install System Dependencies for Playwright
       run: |
@@ -36,10 +39,7 @@ jobs:
 
     - name: Decrypt or Create Configuration Files
       run: |
-        # Recreate directory layout structure
         mkdir -p imr_resources
-        
-        # Inject Google Sheets & Upstox credentials securely from GitHub Secrets
         echo '${{ secrets.ORB_GSHEET_KEYS }}' > imr_resources/orb_gsheet_keys.json
         echo '${{ secrets.IMR_UPSTOX_CREDS }}' > imr_resources/imr_upstox_creds.json
 
