@@ -4,34 +4,30 @@ on:
   schedule:
     # Runs at 03:50 UTC (9:20 AM IST) every Monday through Friday
     - cron: '50 3 * * 1-5'
-  workflow_dispatch: # Allows manual triggers
+  workflow_dispatch: # Allows manual triggers from the UI Actions tab
 
 jobs:
   run-algo:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. CRITICAL FIRST STEP: Download the repository code first!
     - name: Checkout Repository Code
       uses: actions/checkout@v4
 
-    # 2. NOW we can safely set up Python and point to requirement.txt for caching
     - name: Set up Python 3.10
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
-        cache: 'pip' 
-        cache-dependency-path: 'requirement.txt'
 
     - name: Install System Dependencies for Playwright
       run: |
         sudo apt-get update
         sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libasound2
 
-    - name: Install Python Requirements from File
+    - name: Install All Python Dependencies Directly
       run: |
         python -m pip install --upgrade pip
-        if [ -f requirement.txt ]; then pip install -r requirement.txt; fi
+        pip install playwright yfinance pandas requests beautifulsoup4 google-api-python-client google-auth
 
     - name: Install Playwright Chromium Browser
       run: |
