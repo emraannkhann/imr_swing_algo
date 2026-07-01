@@ -382,7 +382,7 @@ def process_swing_strategy():
 def main():
     ti = datetime.now(IST).strftime('%d-%m-%Y %H:%M')
     print("🚀 Institutional Score Architecture Engine Active.")
-    send_discord_notification(f"==================================\n⏰ {ti}\n🚀 **FII's Scoring Swing Launched**\n==================================")
+    send_discord_notification(f"==================================\n⏰ {ti}\n🚀 **FII's Swing Bot Launched**\n==================================")
     
     while datetime.now(IST).time() < dt_time(9, 20):
         time.sleep(5)
