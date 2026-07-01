@@ -15,7 +15,7 @@ jobs:
     - name: Checkout Repository Code
       uses: actions/checkout@v4
 
-    # 2. NOW we can safely set up Python and point to requirements.txt for caching
+    # 2. NOW we can safely set up Python and point to requirement.txt for caching
     - name: Set up Python 3.10
       uses: actions/setup-python@v5
       with:
