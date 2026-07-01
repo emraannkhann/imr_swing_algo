@@ -37,4 +37,4 @@ jobs:
 
     - name: Execute Swing Strategy Core
       run: |
-        python fortune_swing_list.py
+        python fortune_swing_list_v2.py
